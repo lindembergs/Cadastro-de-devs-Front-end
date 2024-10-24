@@ -1,3 +1,7 @@
 export function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <div className="max-w-custom-1000 mx-auto ">
+      <h1 className="text-zinc-50 text-4xl my-6">Programadores</h1>
+    </div>
+  );
 }
