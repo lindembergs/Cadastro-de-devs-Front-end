@@ -3,7 +3,7 @@ export function App() {
     <div className="max-w-custom-1000 mx-auto">
       <h1 className="text-zinc-50 text-4xl my-6">Programadores</h1>
       <form className="flex flex-col">
-        <label className="text-zinc-50 text-lg" htmlFor="name">
+        <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="name">
           Nome:
         </label>
         <input
@@ -13,7 +13,7 @@ export function App() {
           type="text"
           placeholder="Digite seu nome"
         />
-        <label className="text-zinc-50 text-lg" htmlFor="photo">
+        <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="photo">
           Foto:
         </label>
         <input
@@ -23,7 +23,10 @@ export function App() {
           type="text"
           placeholder="Coloque seu avatar"
         />
-        <label className="text-zinc-50 text-lg" htmlFor="position">
+        <label
+          className="text-zinc-50 text-lg cursor-pointer"
+          htmlFor="position"
+        >
           Ocupação:
         </label>
         <input
@@ -33,7 +36,10 @@ export function App() {
           type="text"
           placeholder="Digite sua profissão"
         />
-        <label className="text-zinc-50 text-lg" htmlFor="linkedin">
+        <label
+          className="text-zinc-50 text-lg  cursor-pointer"
+          htmlFor="linkedin"
+        >
           LinkedIn:
         </label>
         <input
