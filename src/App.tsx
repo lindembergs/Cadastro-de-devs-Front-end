@@ -67,7 +67,7 @@ export function App() {
             <p>Desenvolvedor full stack</p>
             <p>LinkedIn</p>
           </div>
-          <div className="flex absolute top-2 right-3">
+          <div className="flex absolute top-2 right-3 gap-2">
             <p>edit</p>
             <p>trash</p>
           </div>
