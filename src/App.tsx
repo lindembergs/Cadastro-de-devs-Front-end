@@ -53,7 +53,26 @@ export function App() {
           Cadastrar
         </button>
       </form>
-      <section></section>
+      <section>
+        <div className="h-32 px-2 py-2 w-full bg-white relative mt-12 rounded flex">
+          <figure className="h-24 w-24 flex justify-center">
+            <img
+              className=" rounded-full w-full"
+              src="https://avatars.githubusercontent.com/u/61990823?v=4"
+              alt="Imagem do programador"
+            />
+          </figure>
+          <div className="flex flex-col ml-6 mt-4">
+            <p>Lindemberg silva</p>
+            <p>Desenvolvedor full stack</p>
+            <p>LinkedIn</p>
+          </div>
+          <div className="flex absolute top-2 right-3">
+            <p>edit</p>
+            <p>trash</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
