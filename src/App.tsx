@@ -7,7 +7,7 @@ export function App() {
           Nome:
         </label>
         <input
-          className="h-10 rounded pl-3 w-full mb-3"
+          className="h-10 rounded pl-3 w-full mb-8"
           id="name"
           name="name"
           type="text"
@@ -17,7 +17,7 @@ export function App() {
           Foto:
         </label>
         <input
-          className="h-10 rounded pl-3 w-full mb-3"
+          className="h-10 rounded pl-3 w-full mb-8"
           id="photo"
           name="photo"
           type="text"
@@ -30,7 +30,7 @@ export function App() {
           Ocupação:
         </label>
         <input
-          className="h-10 rounded pl-3 w-full mb-3"
+          className="h-10 rounded pl-3 w-full mb-8"
           id="position"
           name="position"
           type="text"
@@ -43,7 +43,7 @@ export function App() {
           LinkedIn:
         </label>
         <input
-          className="h-10 rounded pl-3 w-full mb-3"
+          className="h-10 rounded pl-3 w-full mb-8"
           id="linkedin"
           name="linkedin"
           type="text"
@@ -53,6 +53,7 @@ export function App() {
           Cadastrar
         </button>
       </form>
+      <section></section>
     </div>
   );
 }
