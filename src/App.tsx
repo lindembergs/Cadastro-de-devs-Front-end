@@ -49,6 +49,9 @@ export function App() {
           type="text"
           placeholder="Coloque seu LinkedIn"
         />
+        <button className="w-full h-10 rounded bg-cyan-600" type="submit">
+          Cadastrar
+        </button>
       </form>
     </div>
   );
