@@ -1,3 +1,4 @@
+import { FaTrash } from "react-icons/fa";
 export function App() {
   return (
     <div className="max-w-custom-1000 mx-auto">
