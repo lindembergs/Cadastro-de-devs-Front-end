@@ -1,4 +1,4 @@
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaEdit } from "react-icons/fa";
 export function App() {
   return (
     <div className="max-w-custom-1000 mx-auto">
@@ -68,9 +68,9 @@ export function App() {
             <p>Desenvolvedor full stack</p>
             <p>LinkedIn</p>
           </div>
-          <div className="flex absolute top-2 right-3 gap-2">
-            <p>edit</p>
-            <p>trash</p>
+          <div className="flex absolute top-2 right-3 gap-3 items-center">
+            <FaEdit color="blue" size={20} className="cursor-pointer" />
+            <FaTrash color="red" size={17} className="cursor-pointer" />
           </div>
         </div>
       </section>
