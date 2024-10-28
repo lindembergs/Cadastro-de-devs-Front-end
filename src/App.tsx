@@ -63,11 +63,11 @@ export function App() {
               alt="Imagem do programador"
             />
           </figure>
-          <div className="flex flex-col ml-6 mt-4">
+          <article className="flex flex-col ml-6 mt-4">
             <p>Lindemberg silva</p>
             <p>Desenvolvedor full stack</p>
             <p>LinkedIn</p>
-          </div>
+          </article>
           <div className="flex absolute top-2 right-3 gap-3 items-center">
             <FaEdit color="blue" size={20} className="cursor-pointer" />
             <FaTrash color="red" size={17} className="cursor-pointer" />
