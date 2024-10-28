@@ -59,6 +59,7 @@ export function App() {
           type="text"
           placeholder="Digite seu nome"
           ref={nameRef}
+          required
         />
         <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="photo">
           Foto:
@@ -70,6 +71,7 @@ export function App() {
           type="text"
           placeholder="Coloque seu avatar"
           ref={imageRef}
+          required
         />
         <label
           className="text-zinc-50 text-lg cursor-pointer"
@@ -84,6 +86,7 @@ export function App() {
           type="text"
           placeholder="Digite sua profissão"
           ref={positionRef}
+          required
         />
         <label
           className="text-zinc-50 text-lg cursor-pointer"
@@ -98,6 +101,7 @@ export function App() {
           type="text"
           placeholder="Coloque seu LinkedIn"
           ref={linkedinRef}
+          required
         />
         <button className="w-full h-10 rounded bg-cyan-600" type="submit">
           Cadastrar
