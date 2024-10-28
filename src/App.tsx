@@ -23,7 +23,7 @@ export function App() {
   const handleGet = async () => {
     const { data } = await api.get("/customers");
     setProgrammers(data);
-    console.log(data, "<<<<<<<<<");
+    console.log(data, "DADOS DO USUÁRIO");
   };
   const handleCreateCustomers = async (e: React.FormEvent) => {
     e.preventDefault();
