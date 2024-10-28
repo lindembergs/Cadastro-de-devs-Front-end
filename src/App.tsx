@@ -1,6 +1,6 @@
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { api } from "./api/api";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function App() {
   interface Programmer {
@@ -11,11 +11,15 @@ export function App() {
   }
 
   const [programmers, setProgrammers] = useState<Programmer[]>([]);
-
+  const nameRef = useRef<HTMLInputElement>(null);
   const handleGet = async () => {
     const { data } = await api.get("/customers");
     setProgrammers(data);
     console.log(data, "<<<<<<<<<");
+  };
+  const handleCustomers = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(nameRef.current?.value);
   };
 
   useEffect(() => {
@@ -25,7 +29,7 @@ export function App() {
   return (
     <div className="max-w-custom-1000 mx-auto">
       <h1 className="text-zinc-50 text-4xl my-6">Programadores</h1>
-      <form className="flex flex-col">
+      <form className="flex flex-col" onSubmit={handleCustomers}>
         <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="name">
           Nome:
         </label>
@@ -35,6 +39,7 @@ export function App() {
           name="name"
           type="text"
           placeholder="Digite seu nome"
+          ref={nameRef}
         />
         <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="photo">
           Foto:
