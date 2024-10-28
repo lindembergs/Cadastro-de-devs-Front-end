@@ -9,17 +9,36 @@ export function App() {
     position: string;
     linkedin: string;
   }
-
+  interface User {
+    name: string | undefined;
+    image: string | undefined;
+    position: string | undefined;
+    linkedin: string | undefined;
+  }
   const [programmers, setProgrammers] = useState<Programmer[]>([]);
   const nameRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLInputElement>(null);
+  const positionRef = useRef<HTMLInputElement>(null);
+  const linkedinRef = useRef<HTMLInputElement>(null);
   const handleGet = async () => {
     const { data } = await api.get("/customers");
     setProgrammers(data);
     console.log(data, "<<<<<<<<<");
   };
-  const handleCustomers = (e: React.FormEvent) => {
+  const handleCreateCustomers = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(nameRef.current?.value);
+    const userData: User = {
+      name: nameRef.current?.value,
+      image: imageRef.current?.value,
+      position: positionRef.current?.value,
+      linkedin: linkedinRef.current?.value,
+    };
+    try {
+      const response = await api.post("/customer", userData);
+      console.log(response, "METODO POST");
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   useEffect(() => {
@@ -29,7 +48,7 @@ export function App() {
   return (
     <div className="max-w-custom-1000 mx-auto">
       <h1 className="text-zinc-50 text-4xl my-6">Programadores</h1>
-      <form className="flex flex-col" onSubmit={handleCustomers}>
+      <form className="flex flex-col" onSubmit={handleCreateCustomers}>
         <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="name">
           Nome:
         </label>
@@ -50,6 +69,7 @@ export function App() {
           name="photo"
           type="text"
           placeholder="Coloque seu avatar"
+          ref={imageRef}
         />
         <label
           className="text-zinc-50 text-lg cursor-pointer"
@@ -63,6 +83,7 @@ export function App() {
           name="position"
           type="text"
           placeholder="Digite sua profissão"
+          ref={positionRef}
         />
         <label
           className="text-zinc-50 text-lg cursor-pointer"
@@ -76,6 +97,7 @@ export function App() {
           name="linkedin"
           type="text"
           placeholder="Coloque seu LinkedIn"
+          ref={linkedinRef}
         />
         <button className="w-full h-10 rounded bg-cyan-600" type="submit">
           Cadastrar
