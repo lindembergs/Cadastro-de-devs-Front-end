@@ -1,5 +1,27 @@
 import { FaTrash, FaEdit } from "react-icons/fa";
+import { api } from "./api/api";
+import { useEffect, useState } from "react";
+
 export function App() {
+  interface Programmer {
+    name: string;
+    image: string;
+    position: string;
+    linkedin: string;
+  }
+
+  const [programmers, setProgrammers] = useState<Programmer[]>([]);
+
+  const handleGet = async () => {
+    const { data } = await api.get("/customers");
+    setProgrammers(data);
+    console.log(data, "<<<<<<<<<");
+  };
+
+  useEffect(() => {
+    handleGet();
+  }, []);
+
   return (
     <div className="max-w-custom-1000 mx-auto">
       <h1 className="text-zinc-50 text-4xl my-6">Programadores</h1>
@@ -38,7 +60,7 @@ export function App() {
           placeholder="Digite sua profissão"
         />
         <label
-          className="text-zinc-50 text-lg  cursor-pointer"
+          className="text-zinc-50 text-lg cursor-pointer"
           htmlFor="linkedin"
         >
           LinkedIn:
@@ -54,25 +76,31 @@ export function App() {
           Cadastrar
         </button>
       </form>
+
       <section>
-        <div className="h-32 px-2 py-2 w-full bg-white relative mt-12 rounded flex">
-          <figure className="h-24 w-24 flex justify-center">
-            <img
-              className=" rounded-full w-full"
-              src="https://avatars.githubusercontent.com/u/61990823?v=4"
-              alt="Imagem do programador"
-            />
-          </figure>
-          <article className="flex flex-col ml-6 mt-4">
-            <p>Lindemberg silva</p>
-            <p>Desenvolvedor full stack</p>
-            <p>LinkedIn</p>
-          </article>
-          <div className="flex absolute top-2 right-3 gap-3 items-center">
-            <FaEdit color="blue" size={20} className="cursor-pointer" />
-            <FaTrash color="red" size={17} className="cursor-pointer" />
+        {programmers.map((programmer, i) => (
+          <div
+            key={i}
+            className="h-32 px-2 py-2 w-full bg-white relative mt-12 rounded flex"
+          >
+            <figure className="h-24 w-24 flex justify-center">
+              <img
+                className="rounded-full w-full"
+                src={programmer.image}
+                alt={`Imagem de ${programmer.name}`}
+              />
+            </figure>
+            <article className="flex flex-col ml-6 mt-4">
+              <p>{programmer.name}</p>
+              <p>{programmer.position}</p>
+              <p>{programmer.linkedin}</p>
+            </article>
+            <div className="flex absolute top-2 right-3 gap-3 items-center">
+              <FaEdit color="blue" size={20} className="cursor-pointer" />
+              <FaTrash color="red" size={17} className="cursor-pointer" />
+            </div>
           </div>
-        </div>
+        ))}
       </section>
     </div>
   );
