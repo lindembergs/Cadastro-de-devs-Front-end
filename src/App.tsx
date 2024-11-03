@@ -8,6 +8,7 @@ export function App() {
     image: string;
     position: string;
     linkedin: string;
+    id: string;
   }
   interface User {
     name: string | undefined;
@@ -38,6 +39,19 @@ export function App() {
       console.log(response, "METODO POST");
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleDeleteUser = async (id: string) => {
+    try {
+      // const findUser = programmers.find((user) => user.id === id);
+      // console.log(findUser?.id);
+      console.log(id);
+
+      await api.delete(`/customer/${id}`);
+      await handleGet();
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -128,7 +142,12 @@ export function App() {
             </article>
             <div className="flex absolute top-2 right-3 gap-3 items-center">
               <FaEdit color="blue" size={20} className="cursor-pointer" />
-              <FaTrash color="red" size={17} className="cursor-pointer" />
+              <FaTrash
+                onClick={() => handleDeleteUser(programmer.id)}
+                color="red"
+                size={17}
+                className="cursor-pointer"
+              />
             </div>
           </div>
         ))}
