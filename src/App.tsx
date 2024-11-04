@@ -21,19 +21,20 @@ export function App() {
   const imageRef = useRef<HTMLInputElement>(null);
   const positionRef = useRef<HTMLInputElement>(null);
   const linkedinRef = useRef<HTMLInputElement>(null);
-  const handleGet = async () => {
+  const userData: User = {
+    name: nameRef.current?.value,
+    image: imageRef.current?.value,
+    position: positionRef.current?.value,
+    linkedin: linkedinRef.current?.value,
+  };
+  const handleGetUsers = async () => {
     const { data } = await api.get("/customers");
     setProgrammers(data);
     console.log(data, "DADOS DO USUÁRIO");
   };
   const handleCreateCustomers = async (e: React.FormEvent) => {
     e.preventDefault();
-    const userData: User = {
-      name: nameRef.current?.value,
-      image: imageRef.current?.value,
-      position: positionRef.current?.value,
-      linkedin: linkedinRef.current?.value,
-    };
+
     try {
       const response = await api.post("/customer", userData);
       console.log(response, "METODO POST");
@@ -44,19 +45,24 @@ export function App() {
 
   const handleDeleteUser = async (id: string) => {
     try {
-      // const findUser = programmers.find((user) => user.id === id);
-      // console.log(findUser?.id);
-      console.log(id);
-
       await api.delete(`/customer/${id}`);
-      await handleGet();
+      await handleGetUsers();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleUpdateUser = async (id: string) => {
+    try {
+      const response = await api.put(`/customer/${id}`, userData);
+      console.log(response);
+      await handleGetUsers;
     } catch (err) {
       console.log(err);
     }
   };
 
   useEffect(() => {
-    handleGet();
+    handleGetUsers();
   }, []);
 
   return (
@@ -141,7 +147,12 @@ export function App() {
               <p>{programmer.linkedin}</p>
             </article>
             <div className="flex absolute top-2 right-3 gap-3 items-center">
-              <FaEdit color="blue" size={20} className="cursor-pointer" />
+              <FaEdit
+                onClick={() => handleUpdateUser(programmer.id)}
+                color="blue"
+                size={20}
+                className="cursor-pointer"
+              />
               <FaTrash
                 onClick={() => handleDeleteUser(programmer.id)}
                 color="red"
