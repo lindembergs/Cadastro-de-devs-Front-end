@@ -33,7 +33,6 @@ export const EditUser = ({ userId, onUpdate }: EditUserProps) => {
 
   return (
     <form
-      className="flex flex-col"
       onSubmit={(e) => {
         e.preventDefault();
         handleUpdateUser();

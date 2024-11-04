@@ -14,6 +14,7 @@ export function App() {
 
   const [programmers, setProgrammers] = useState<Programmer[]>([]);
   const [editUserId, setEditUserId] = useState<string | null>(null);
+  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
 
   const nameRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
@@ -51,8 +52,23 @@ export function App() {
     }
   };
 
-  const handleOpenEditModal = (id: string) => {
+  const handleOpenEditModal = (id: string, event: React.MouseEvent) => {
     setEditUserId(id);
+
+    // Calcula a posição do botão clicado
+    const rect = (event.target as HTMLElement).getBoundingClientRect();
+    const modalWidth = 384; // Largura aproximada do modal (96 rem)
+
+    // Calcula o "left" para garantir que o modal não fique fora da tela
+    const leftPosition = Math.min(
+      rect.left,
+      window.innerWidth - modalWidth - 16
+    ); // "16" é uma margem para manter o modal dentro da tela
+
+    setModalPosition({
+      top: rect.top,
+      left: leftPosition,
+    });
   };
 
   useEffect(() => {
@@ -60,7 +76,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="max-w-custom-1000 mx-auto">
+    <div className="max-w-custom-1000 mx-auto relative">
       <h1 className="text-zinc-50 text-4xl my-6">Programadores</h1>
       <form className="flex flex-col" onSubmit={handleCreateCustomers}>
         <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="name">
@@ -141,7 +157,7 @@ export function App() {
             </article>
             <div className="flex absolute top-2 right-3 gap-3 items-center">
               <FaEdit
-                onClick={() => handleOpenEditModal(programmer.id)}
+                onClick={(e) => handleOpenEditModal(programmer.id, e)}
                 color="blue"
                 size={20}
                 className="cursor-pointer"
@@ -156,7 +172,19 @@ export function App() {
           </div>
         ))}
       </section>
-      {editUserId && <EditUser userId={editUserId} onUpdate={handleGet} />}
+
+      {editUserId && (
+        <div className="fixed inset-0 bg-slate-600 bg-opacity-50 flex justify-center items-center">
+          <div
+            className="flex flex-col h-96 w-96 bg-slate-500 rounded p-2"
+            style={{
+              top: modalPosition.top,
+            }}
+          >
+            <EditUser userId={editUserId} onUpdate={handleGet} />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
