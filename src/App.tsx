@@ -14,7 +14,6 @@ export function App() {
 
   const [programmers, setProgrammers] = useState<Programmer[]>([]);
   const [editUserId, setEditUserId] = useState<string | null>(null);
-  const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 });
 
   const nameRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
@@ -52,23 +51,11 @@ export function App() {
     }
   };
 
-  const handleOpenEditModal = (id: string, event: React.MouseEvent) => {
+  const handleOpenEditModal = (id: string) => {
     setEditUserId(id);
-
-    // Calcula a posição do botão clicado
-    const rect = (event.target as HTMLElement).getBoundingClientRect();
-    const modalWidth = 384; // Largura aproximada do modal (96 rem)
-
-    // Calcula o "left" para garantir que o modal não fique fora da tela
-    const leftPosition = Math.min(
-      rect.left,
-      window.innerWidth - modalWidth - 16
-    ); // "16" é uma margem para manter o modal dentro da tela
-
-    setModalPosition({
-      top: rect.top,
-      left: leftPosition,
-    });
+  };
+  const handleCloseModal = () => {
+    setEditUserId("");
   };
 
   useEffect(() => {
@@ -157,7 +144,7 @@ export function App() {
             </article>
             <div className="flex absolute top-2 right-3 gap-3 items-center">
               <FaEdit
-                onClick={(e) => handleOpenEditModal(programmer.id, e)}
+                onClick={() => handleOpenEditModal(programmer.id)}
                 color="blue"
                 size={20}
                 className="cursor-pointer"
@@ -175,13 +162,12 @@ export function App() {
 
       {editUserId && (
         <div className="fixed inset-0 bg-slate-600 bg-opacity-50 flex justify-center items-center">
-          <div
-            className="flex flex-col h-96 w-96 bg-slate-500 rounded p-2"
-            style={{
-              top: modalPosition.top,
-            }}
-          >
-            <EditUser userId={editUserId} onUpdate={handleGet} />
+          <div className="flex flex-col h-auto w-96 bg-slate-500 rounded p-2">
+            <EditUser
+              userId={editUserId}
+              onUpdate={handleGet}
+              onClose={handleCloseModal}
+            />
           </div>
         </div>
       )}
