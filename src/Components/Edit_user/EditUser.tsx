@@ -49,7 +49,7 @@ export const EditUser = ({ userId, onUpdate, onClose }: EditUserProps) => {
           e.preventDefault();
           handleUpdateUser();
         }}
-        className="flex flex-col p-4 bg-slate-500 rounded"
+        className="flex flex-col p-4 bg-[url('https://wallpapercave.com/wp/wp12460934.jpg')] bg-center bg-cover rounded"
       >
         <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="name">
           Nome:

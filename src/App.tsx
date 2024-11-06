@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { api } from "./api/api";
 import { EditUser } from "./Components/Edit_user/EditUser";
+import { FaLinkedin } from "react-icons/fa";
 
 export function App() {
   interface Programmer {
@@ -63,7 +64,7 @@ export function App() {
   }, []);
 
   return (
-    <div className="max-w-custom-1000 mx-auto relative">
+    <div className="max-w-custom-1000 mx-auto relative min-h-screen">
       <h1 className="text-zinc-50 text-4xl my-6">Programadores</h1>
       <form className="flex flex-col" onSubmit={handleCreateCustomers}>
         <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="name">
@@ -128,21 +129,23 @@ export function App() {
         {programmers.map((programmer) => (
           <div
             key={programmer.id}
-            className="h-32 px-2 py-2 w-full bg-white relative mt-12 rounded flex"
+            className="h-auto px-2 py-2 w-full bg-white relative mt-10 rounded flex"
           >
-            <figure className="h-24 w-24 flex justify-center">
+            <figure className="flex justify-center h-24 w-24 sm:h-20 sm:w-20">
               <img
-                className="rounded-full w-full"
+                className="rounded-full w-full h-full sm:h-13 sm:w-13 object-cover"
                 src={programmer.image}
                 alt={`Imagem de ${programmer.name}`}
               />
             </figure>
-            <article className="flex flex-col ml-6 mt-4">
+            <article className="flex flex-col ml-6 mt-6">
               <p>{programmer.name}</p>
               <p>{programmer.position}</p>
-              <p>{programmer.linkedin}</p>
+              <a href={programmer.linkedin} target="_blank">
+                <FaLinkedin size={25} color="#0e76a8" />
+              </a>
             </article>
-            <div className="flex absolute top-2 right-3 gap-3 items-center">
+            <div className="flex absolute top-2 right-3 gap-3 items-center ">
               <FaEdit
                 onClick={() => handleOpenEditModal(programmer.id)}
                 color="blue"
@@ -162,7 +165,7 @@ export function App() {
 
       {editUserId && (
         <div className="fixed inset-0 bg-slate-600 bg-opacity-50 flex justify-center items-center">
-          <div className="flex flex-col h-auto w-96 bg-slate-500 rounded p-2">
+          <div className="flex flex-col h-auto w-96  rounded p-2">
             <EditUser
               userId={editUserId}
               onUpdate={handleGet}
