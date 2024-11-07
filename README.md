@@ -1,7 +1,7 @@
 # Cadastro-de-devs-Front-end
 
 <h1 align="center">
-    <img alt="layout no macbook" title="Tela de cadastro" src="./src/assets/img/Macbook-Air.png.png" width= "80%"/>
+    <img alt="layout no macbook" title="Tela de cadastro" src="./src/assets/img/Macbook-Air.png" width= "80%"/>
 </h1>
 
 <br>
