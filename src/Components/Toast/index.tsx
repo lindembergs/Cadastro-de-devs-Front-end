@@ -9,12 +9,6 @@ export function Toast() {
   }, []);
   return (
     <div>
-      {/* <button
-        className="text-9xlt cursor-pointer text-fuchsia-600 "
-        onClick={notify}
-      >
-        Notify!
-      </button> */}
       <ToastContainer />
     </div>
   );
