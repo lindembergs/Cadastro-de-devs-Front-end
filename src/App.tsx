@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
 import { api } from "./api/api";
-import { EditUser } from "./Components/Edit_user/EditUser";
+import { EditUser } from "./Components/Edit_user";
 import { FaLinkedin } from "react-icons/fa";
+import { Toast } from "./Components/Toast";
 
 export function App() {
   interface Programmer {
@@ -15,6 +16,7 @@ export function App() {
 
   const [programmers, setProgrammers] = useState<Programmer[]>([]);
   const [editUserId, setEditUserId] = useState<string | null>(null);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
   const nameRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
@@ -37,11 +39,13 @@ export function App() {
     try {
       const response = await api.post("/customer", userData);
       console.log(response);
+      setIsSuccess(true);
       await handleGet();
       if (nameRef.current) nameRef.current.value = "";
       if (imageRef.current) imageRef.current.value = "";
       if (positionRef.current) positionRef.current.value = "";
       if (linkedinRef.current) linkedinRef.current.value = "";
+      setTimeout(() => setIsSuccess(false), 6000);
     } catch (error) {
       console.error(error);
     }
@@ -69,6 +73,7 @@ export function App() {
 
   return (
     <div className="max-w-custom-1000 mx-auto relative min-h-screen">
+      {isSuccess ? <Toast></Toast> : <p>Falha</p>}
       <h1 className="text-zinc-50 text-4xl my-6">Programadores</h1>
       <form className="flex flex-col" onSubmit={handleCreateCustomers}>
         <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="name">
