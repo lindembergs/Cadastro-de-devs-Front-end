@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { api } from "../../api/api";
 import { FaTimes } from "react-icons/fa";
 
@@ -9,29 +9,48 @@ interface EditUserProps {
 }
 
 export const EditUser = ({ userId, onUpdate, onClose }: EditUserProps) => {
+  const [userData, setUserData] = useState({
+    name: "",
+    image: "",
+    position: "",
+    linkedin: "",
+  });
+
   const nameRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLInputElement>(null);
   const positionRef = useRef<HTMLInputElement>(null);
   const linkedinRef = useRef<HTMLInputElement>(null);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (!userId) return;
+
+      try {
+        const response = await api.get(`/customer/${userId}`);
+        setUserData(response.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
+
   const handleUpdateUser = async () => {
     if (!userId) return;
 
-    const userData = {
-      name: nameRef.current?.value,
-      image: imageRef.current?.value,
-      position: positionRef.current?.value,
-      linkedin: linkedinRef.current?.value,
+    // Mescla os valores do estado com os campos preenchidos
+    const updatedData = {
+      name: nameRef.current?.value || userData.name,
+      image: imageRef.current?.value || userData.image,
+      position: positionRef.current?.value || userData.position,
+      linkedin: linkedinRef.current?.value || userData.linkedin,
     };
 
     try {
-      const response = await api.put(`/customer/${userId}`, userData);
-      console.log(response);
+      await api.put(`/customer/${userId}`, updatedData);
       onUpdate(); // Atualiza a lista de programadores
-      if (nameRef.current) nameRef.current.value = "";
-      if (imageRef.current) imageRef.current.value = "";
-      if (positionRef.current) positionRef.current.value = "";
-      if (linkedinRef.current) linkedinRef.current.value = "";
+      onClose(); // Fecha o modal após a atualização
     } catch (err) {
       console.log(err);
     }
@@ -60,8 +79,8 @@ export const EditUser = ({ userId, onUpdate, onClose }: EditUserProps) => {
           name="name"
           type="text"
           placeholder="Digite seu nome"
+          defaultValue={userData.name}
           ref={nameRef}
-          required
         />
         <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="photo">
           Foto:
@@ -72,8 +91,8 @@ export const EditUser = ({ userId, onUpdate, onClose }: EditUserProps) => {
           name="photo"
           type="text"
           placeholder="Coloque seu avatar"
+          defaultValue={userData.image}
           ref={imageRef}
-          required
         />
         <label
           className="text-zinc-50 text-lg cursor-pointer"
@@ -87,8 +106,8 @@ export const EditUser = ({ userId, onUpdate, onClose }: EditUserProps) => {
           name="position"
           type="text"
           placeholder="Digite sua profissão"
+          defaultValue={userData.position}
           ref={positionRef}
-          required
         />
         <label
           className="text-zinc-50 text-lg cursor-pointer"
@@ -102,8 +121,8 @@ export const EditUser = ({ userId, onUpdate, onClose }: EditUserProps) => {
           name="linkedin"
           type="text"
           placeholder="Coloque seu LinkedIn"
+          defaultValue={userData.linkedin}
           ref={linkedinRef}
-          required
         />
         <button className="w-full h-10 rounded bg-cyan-600" type="submit">
           Atualizar

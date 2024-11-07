@@ -38,6 +38,10 @@ export function App() {
       const response = await api.post("/customer", userData);
       console.log(response);
       await handleGet();
+      if (nameRef.current) nameRef.current.value = "";
+      if (imageRef.current) imageRef.current.value = "";
+      if (positionRef.current) positionRef.current.value = "";
+      if (linkedinRef.current) linkedinRef.current.value = "";
     } catch (error) {
       console.error(error);
     }
