@@ -3,7 +3,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export function Toast() {
-  const notify = () => toast("Wow so easy!");
+  const notify = () => toast("Usuário cadastrado com sucesso!");
   useEffect(() => {
     notify();
   }, []);
