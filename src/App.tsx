@@ -73,7 +73,7 @@ export function App() {
 
   return (
     <div className="max-w-custom-1000 mx-auto relative min-h-screen">
-      {isSuccess ? <Toast></Toast> : <p>Falha</p>}
+      {isSuccess ? <Toast></Toast> : <p>Erro ao cadastrar</p>}
       <h1 className="text-zinc-50 text-4xl my-6">Programadores</h1>
       <form className="flex flex-col" onSubmit={handleCreateCustomers}>
         <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="name">

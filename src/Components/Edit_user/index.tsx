@@ -39,7 +39,6 @@ export const EditUser = ({ userId, onUpdate, onClose }: EditUserProps) => {
   const handleUpdateUser = async () => {
     if (!userId) return;
 
-    // Mescla os valores do estado com os campos preenchidos
     const updatedData = {
       name: nameRef.current?.value || userData.name,
       image: imageRef.current?.value || userData.image,
@@ -49,8 +48,8 @@ export const EditUser = ({ userId, onUpdate, onClose }: EditUserProps) => {
 
     try {
       await api.put(`/customer/${userId}`, updatedData);
-      onUpdate(); // Atualiza a lista de programadores
-      onClose(); // Fecha o modal após a atualização
+      onUpdate();
+      onClose();
     } catch (err) {
       console.log(err);
     }
