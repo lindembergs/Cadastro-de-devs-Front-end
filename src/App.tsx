@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { FaTrash, FaEdit, FaLinkedin } from "react-icons/fa";
 import { api } from "./api/api";
 import { EditUser } from "./Components/Edit_user";
-import { FaLinkedin } from "react-icons/fa";
 import { Toast } from "./Components/Toast";
 
 export function App() {
@@ -24,8 +23,12 @@ export function App() {
   const linkedinRef = useRef<HTMLInputElement>(null);
 
   const handleGet = async () => {
-    const { data } = await api.get("/customers");
-    setProgrammers(data);
+    try {
+      const { data } = await api.get("/customers");
+      setProgrammers(data);
+    } catch (error) {
+      console.error("Erro ao buscar programadores:", error);
+    }
   };
 
   const handleCreateCustomers = async (e: React.FormEvent) => {
@@ -37,17 +40,16 @@ export function App() {
       linkedin: linkedinRef.current?.value,
     };
     try {
-      const response = await api.post("/customer", userData);
-      console.log(response);
+      await api.post("/customer", userData);
       setIsSuccess(true);
       await handleGet();
       if (nameRef.current) nameRef.current.value = "";
       if (imageRef.current) imageRef.current.value = "";
       if (positionRef.current) positionRef.current.value = "";
       if (linkedinRef.current) linkedinRef.current.value = "";
-      setTimeout(() => setIsSuccess(false), 6000);
+      setTimeout(() => setIsSuccess(false), 6000); // Remove mensagem de sucesso após 6 segundos
     } catch (error) {
-      console.error(error);
+      console.error("Erro ao cadastrar usuário:", error);
     }
   };
 
@@ -56,16 +58,12 @@ export function App() {
       await api.delete(`/customer/${id}`);
       await handleGet();
     } catch (err) {
-      console.log(err);
+      console.error("Erro ao deletar usuário:", err);
     }
   };
 
-  const handleOpenEditModal = (id: string) => {
-    setEditUserId(id);
-  };
-  const handleCloseModal = () => {
-    setEditUserId("");
-  };
+  const handleOpenEditModal = (id: string) => setEditUserId(id);
+  const handleCloseModal = () => setEditUserId(null);
 
   useEffect(() => {
     handleGet();
@@ -73,71 +71,64 @@ export function App() {
 
   return (
     <div className="max-w-custom-1000 mx-auto relative min-h-screen">
-      {isSuccess ? (
-        <Toast message="Usuário cadastrado com sucesso!"></Toast>
-      ) : (
-        <p>Erro ao cadastrar</p>
-      )}
+      {isSuccess && <Toast message="Usuário cadastrado com sucesso!" />}
       <h1 className="text-zinc-50 text-4xl my-6">Programadores</h1>
       <form className="flex flex-col" onSubmit={handleCreateCustomers}>
-        <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="name">
+        <label htmlFor="name" className="text-zinc-50 text-lg cursor-pointer">
           Nome:
         </label>
         <input
-          className="h-10 rounded pl-3 w-full mb-8"
           id="name"
-          name="name"
+          ref={nameRef}
           type="text"
           placeholder="Digite seu nome"
-          ref={nameRef}
+          className="h-10 rounded pl-3 w-full mb-8"
           required
         />
-        <label className="text-zinc-50 text-lg cursor-pointer" htmlFor="photo">
+        <label htmlFor="photo" className="text-zinc-50 text-lg cursor-pointer">
           Foto:
         </label>
         <input
-          className="h-10 rounded pl-3 w-full mb-8"
           id="photo"
-          name="photo"
+          ref={imageRef}
           type="text"
           placeholder="Coloque seu avatar"
-          ref={imageRef}
+          className="h-10 rounded pl-3 w-full mb-8"
           required
         />
         <label
-          className="text-zinc-50 text-lg cursor-pointer"
           htmlFor="position"
+          className="text-zinc-50 text-lg cursor-pointer"
         >
           Ocupação:
         </label>
         <input
-          className="h-10 rounded pl-3 w-full mb-8"
           id="position"
-          name="position"
+          ref={positionRef}
           type="text"
           placeholder="Digite sua profissão"
-          ref={positionRef}
+          className="h-10 rounded pl-3 w-full mb-8"
           required
         />
         <label
-          className="text-zinc-50 text-lg cursor-pointer"
           htmlFor="linkedin"
+          className="text-zinc-50 text-lg cursor-pointer"
         >
           LinkedIn:
         </label>
         <input
-          className="h-10 rounded pl-3 w-full mb-8"
           id="linkedin"
-          name="linkedin"
+          ref={linkedinRef}
           type="text"
           placeholder="Coloque seu LinkedIn"
-          ref={linkedinRef}
+          className="h-10 rounded pl-3 w-full mb-8"
           required
         />
-        <button className="w-full h-10 rounded bg-cyan-600" type="submit">
+        <button type="submit" className="w-full h-10 rounded bg-cyan-600">
           Cadastrar
         </button>
       </form>
+
       <section>
         {programmers.map((programmer) => (
           <div
@@ -146,7 +137,7 @@ export function App() {
           >
             <figure className="flex justify-center h-24 w-24 sm:h-20 sm:w-20">
               <img
-                className="rounded-full w-full h-full sm:h-13 sm:w-13 object-cover"
+                className="rounded-full w-full h-full object-cover"
                 src={programmer.image}
                 alt={`Imagem de ${programmer.name}`}
               />
@@ -158,7 +149,7 @@ export function App() {
                 <FaLinkedin size={25} color="#0e76a8" />
               </a>
             </article>
-            <div className="flex absolute top-2 right-3 gap-3 items-center ">
+            <div className="flex absolute top-2 right-3 gap-3 items-center">
               <FaEdit
                 onClick={() => handleOpenEditModal(programmer.id)}
                 color="blue"
@@ -175,10 +166,9 @@ export function App() {
           </div>
         ))}
       </section>
-
       {editUserId && (
         <div className="fixed inset-0 bg-slate-600 bg-opacity-50 flex justify-center items-center">
-          <div className="flex flex-col h-auto w-96  rounded p-2">
+          <div className="flex flex-col h-auto w-96 rounded p-2">
             <EditUser
               userId={editUserId}
               onUpdate={handleGet}
